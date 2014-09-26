@@ -1,4 +1,5 @@
 (ns cookiemonster.core
+  (:gen-class)
   (:require [clj-http.client :as client]
             [clojure.edn :as edn]
             [clojure.tools.logging :as log]
