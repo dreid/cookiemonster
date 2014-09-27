@@ -52,7 +52,7 @@
 
 (defn -main [& argv]
   (let [
-        period (* (int (env :poll-interval 15)) 60 1000)
+        period (* (Integer/parseInt (env :poll-interval "15")) 60 1000)
         id->loc (group-by :CellId (fetch locations-url))
         notification-url (env :slack-url)
         botname (env :botname "Cookie Monster")
