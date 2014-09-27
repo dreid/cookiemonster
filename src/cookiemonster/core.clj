@@ -3,6 +3,8 @@
   (:require [clj-http.client :as client]
             [clojure.edn :as edn]
             [clojure.tools.logging :as log]
+            [clojure.string :as str]
+            [environ.core :refer [env]]
             [clojure.core.async
               :refer (timeout <!!)]))
 
@@ -19,9 +21,6 @@
 
 (defn seq-contains? [s target]
   (some #(= target %) s))
-
-(defn read-config [fname]
-  (edn/read-string (slurp fname)))
 
 (defn fetch-cookies [locations]
   (group-by :CellId
@@ -52,17 +51,20 @@
                     :content-type :json}))
 
 (defn -main [& argv]
-  (let [conf (read-config (first argv))
-        period (* (:poll-minutes conf) 60 1000)
+  (let [
+        period (* (env :poll-interval 15) 60 1000)
         id->loc (group-by :CellId (fetch locations-url))
-        locations (:preferred-locations conf)]
+        notification-url (env :slack-url)
+        botname (env :botname "Cookie Monster")
+        locations (map str/trim
+                    (str/split (env :preferred-locations) #","))]
     (while true
       (log/info "Polling for cookies every: " period "ms")
       (let [cookies (fetch-cookies locations)]
         (when (not (empty? cookies))
           (log/info "Found some cookies")
-          (slack! (:notification-url conf)
-                  (cookie-message (:botname conf)
+          (slack! notification-url
+                  (cookie-message botname
                                   locations
                                   id->loc
                                   cookies))))

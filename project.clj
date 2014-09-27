@@ -5,12 +5,8 @@
   :dependencies [[org.clojure/clojure "1.7.0-alpha1"]
                  [clj-http "1.0.0"]
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
-                 [org.clojure/tools.logging "0.3.1"]]
-
-  :plugins [[com.palletops/uberimage "0.2.0"]]
+                 [org.clojure/tools.logging "0.3.1"]
+                 [environ "0.5.0"]]
 
   :profiles {:uberjar {:aot :all}}
-  :main cookiemonster.core
-
-  :uberimage {:cmd ["/usr/bin/java" "-jar" "/uberjar.jar" "/config.edn"]
-              :files {"config.edn" "config.edn"}})
+  :main cookiemonster.core)
