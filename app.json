@@ -15,7 +15,7 @@
         "BOTNAME": {
             "description": "The name of your bot.",
             "value": "Cookie Monster",
-        }
+        },
         "PREFERRED_LOCATIONS": {
             "description": "A comma separated list of Specialty's location codes.",
             "value": "SF10,SF02,SF09",
