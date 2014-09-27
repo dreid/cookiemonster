@@ -9,6 +9,6 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [environ "0.5.0"]]
 
-  :uberjar-main "cookiemonster-standalone.jar"
+  :uberjar-name "cookiemonster-standalone.jar"
   :profiles {:uberjar {:aot :all}}
   :main cookiemonster.core)
