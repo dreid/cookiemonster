@@ -1,0 +1,24 @@
+{
+    "name": "Cookiemonster",
+    "description": "Post warm cookie notifications from Specialty's to SlackHQ.",
+    "repository": "https://github.com/dreid/cookiemonster",
+    "env": {
+        "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-clojure",
+        "SLACK_URL": {
+            "description": "Slack incoming webhook URL to receive notifications.",
+            "required": true
+        },
+        "POLL_INTERVAL": {
+            "description": "Interval at which to check for new cookies (in minutes).",
+            "value": "15",
+        },
+        "BOTNAME": {
+            "description": "The name of your bot.",
+            "value": "Cookie Monster",
+        }
+        "PREFERRED_LOCATIONS": {
+            "description": "A comma separated list of Specialty's location codes.",
+            "value": "SF10,SF02,SF09",
+        }
+    }
+}
