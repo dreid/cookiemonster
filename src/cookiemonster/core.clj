@@ -6,7 +6,7 @@
             [clojure.string :as str]
             [environ.core :refer [env]]
             [clojure.core.async
-              :refer (timeout <!!)]))
+              :refer (timeout <!! go <!)]))
 
 (def locations-url
   "http://www.specialtys.com/Wcf/SpProxy.svc/LoadPickupLocations")
@@ -51,7 +51,7 @@
   (client/post url {:form-params message
                     :content-type :json}))
 
-(defn -main [& argv]
+(defn poll []
   (let [
         period (* (Integer/parseInt (env :poll-interval "15")) 60 1000)
         id->loc (group-by :CellId (fetch locations-url))
@@ -59,7 +59,7 @@
         botname (env :botname "Cookie Monster")
         locations (map str/trim
                     (str/split (env :preferred-locations) #","))]
-    (while true
+    (go (while true
       (log/info "Polling for cookies every: " period "ms")
       (let [cookies (fetch-cookies locations)]
         (when (not (empty? cookies))
@@ -69,4 +69,8 @@
                                   locations
                                   id->loc
                                   cookies))))
-      (<!! (timeout period)))))
+      (<! (timeout period))))))
+
+(defn -main [& argv]
+  (case (first argv)
+    "worker" (<!! (poll))))

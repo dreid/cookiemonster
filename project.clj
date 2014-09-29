@@ -8,7 +8,10 @@
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
                  [org.clojure/tools.logging "0.3.1"]
                  [environ "0.5.0"]]
-
+  :plugins [[lein-environ "1.0.0"]]
   :uberjar-name "cookiemonster-standalone.jar"
-  :profiles {:uberjar {:aot :all}}
+  :profiles {
+    :uberjar {:aot :all}
+    :dev {:env {:preferred-locations "SF10,SF02,SF09"
+                :poll-interval "1"}}}
   :main cookiemonster.core)
