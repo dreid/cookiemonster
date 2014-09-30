@@ -1,4 +1,0 @@
-{:notification-url "slack-incoming-webhook-url"
- :botname "Cookie Monster"
- :poll-minutes 15
- :preferred-locations ["SF10" "SF02" "SF09"]}
