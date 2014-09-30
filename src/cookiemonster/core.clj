@@ -38,14 +38,13 @@
   {:text "Warm cookies nearby!"
    :username username
    :icon_emoji ":cookie:"
-   :fields (filter (complement nil?)
-            (for [l locations]
-              (let [local-cookies (cookies l)
-                    location (first (id->loc l))]
-                (when (not (empty? local-cookies))
-                  {:title (:StreetAddress location)
-                   :short false
-                   :value (format-cookies location local-cookies)}))))})
+   :fields (for [l locations
+                 :let [local-cookies (cookies l)
+                       location (first (id->loc l))]
+                 :when (not (empty? local-cookies))]
+              {:title (:StreetAddress location)
+               :short false
+               :value (format-cookies location local-cookies)})})
 
 (defn slack! [url message]
   (client/post url {:form-params message
