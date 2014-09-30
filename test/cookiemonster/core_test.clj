@@ -26,3 +26,8 @@
                      {:title "101 New Montgomery."
                       :short false
                       :value "Chocolate Chip (56m)"}]})))
+
+(deftest test-diff-cookies
+  (is (= (diff-cookies [{:Age 3 :Name "Chocolate Chip" :CellId 0}]
+                       [{:Age 2 :Name "Chocolate Chip" :CellId 0} {:Age 5 :Name "Chocolate Chip" :CellId 0}])
+         [{:Name "Chocolate Chip", :CellId 0, :Age 2}])))
