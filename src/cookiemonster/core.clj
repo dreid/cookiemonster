@@ -80,7 +80,7 @@
                           (cookie-message botname
                                           locations
                                           id->loc
-                                          cookies)))))
+                                          new-cookies)))))
             (swap! previous-cookies cookies))
           (<! (timeout period)))))))
 
