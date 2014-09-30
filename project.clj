@@ -7,7 +7,7 @@
                  [clj-http "1.0.0"]
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
                  [org.clojure/tools.logging "0.3.1"]
-                 [environ "0.5.0"]]
+                 [environ "1.0.0"]]
   :plugins [[lein-environ "1.0.0"]]
   :uberjar-name "cookiemonster-standalone.jar"
   :profiles {
