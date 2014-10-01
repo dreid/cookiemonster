@@ -46,6 +46,15 @@
                :short false
                :value (format-cookies location local-cookies)})})
 
+(defn diff-cookies [previous-cookies new-cookies]
+  (filter (fn [cookie]
+             (not-any? (fn [old-cookie]
+                         (and (= (:Name old-cookie) (:Name cookie))
+                              (= (:CellId old-cookie) (:CellId cookie))
+                              (< (:Age old-cookie) (:Age cookie))))
+                       previous-cookies))
+           new-cookies))
+
 (defn slack! [url message]
   (client/post url {:form-params message
                     :content-type :json}))
@@ -58,17 +67,22 @@
         botname (env :botname "Cookie Monster")
         locations (map str/trim
                     (str/split (env :preferred-locations) #","))]
-    (go (while true
-      (log/info "Polling for cookies every: " period "ms")
-      (let [cookies (fetch-cookies locations)]
-        (when (not (empty? cookies))
-          (log/info "Found some cookies")
-          (slack! notification-url
-                  (cookie-message botname
-                                  locations
-                                  id->loc
-                                  cookies))))
-      (<! (timeout period))))))
+    (let [previous-cookies (atom nil)]
+        (go (while true
+          (log/info "Polling for cookies every: " period "ms")
+          (let [cookies (fetch-cookies locations)]
+            (when (not (empty? cookies))
+              (log/info "Found some cookies")
+              (let [new-cookies (diff-cookies @previous-cookies cookies)]
+                (when (not (empty? new-cookies))
+                  (log/info "Found new cookies")
+                  (slack! notification-url
+                          (cookie-message botname
+                                          locations
+                                          id->loc
+                                          new-cookies)))))
+            (swap! previous-cookies cookies))
+          (<! (timeout period)))))))
 
 (defn -main [& argv]
   (case (first argv)
