@@ -1,0 +1,8 @@
+language: clojure
+deploy:
+  provider: heroku
+  api_key:
+    secure: Yz4+J1fYCQJCBvdYcSiIe8Gi6b+WPbUeUc2vOW/urUpfk99do3Suh0rTV3zInjzeM+VdcYJ2fBkKn6KTkrrXmtR2HYH4x4cgn7RFyS1y6NqdpLRx1WgRLFkggXX56312nBKQFlODFpWQtRh7dW8rGquma2591hOkLkVVKFFl0KY=
+  app: rssf-cookiemonster
+  on:
+    repo: dreid/cookiemonster
